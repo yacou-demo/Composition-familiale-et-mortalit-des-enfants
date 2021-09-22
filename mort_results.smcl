@@ -1,0 +1,180 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\ycompaore\Desktop\Redaction thèse Yacou\Après confirmation\Paper 3\mort_results.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}10 Feb 2021, 15:23:23
+{txt}
+{com}. stset EventDate if residence==1, id(concat_IndividualId) failure(censor_death==1) ///
+>                 time0(datebeg) origin(time DoB) exit(time DoB+(31557600000*5)+212000000) scale(31557600000)
+
+                {txt}id:  {res}concat_IndividualId
+     {txt}failure event:  {res}censor_death == 1
+{txt}obs. time interval:  {res}(datebeg, EventDate]
+{txt} exit on or before:  {res}time DoB+(31557600000*5)+212000000
+    {txt}t for analysis:  {res}(time-origin)/3.16e+10
+            {txt}origin:  {res}time DoB
+            {txt}if exp:  {res}residence==1
+
+{txt}{hline 78}
+{res}    723,749{txt}  total observations
+{res}    119,714{txt}  ignored at outset because of -if <exp>-
+{res}     15,688{txt}  entry on or after exit (datebeg>EventDate)         PROBABLE ERROR
+{hline 78}
+{res}    588,347{txt}  observations remaining, representing
+{res}    112,324{txt}  subjects
+{res}      7,410{txt}  failures in multiple-failure-per-subject data
+{res} 480,272.35{txt}  total analysis time at risk and under observation
+                                                at risk from t = {res}        0
+                                     {txt}earliest observed entry t = {res}        0
+                                          {txt}last observed exit t = {res}        5
+{txt}
+{com}. 
+. stcox i.gender ib20.hdss_period i.MigDeadMO_MO_DTH_TVC i.MigDeadFA_FA_DTH_TVC ///
+>       ib7.birth_int_gp_YS_new ib0.res_Y_DTH_TVC  ///
+>           ib4.MigDeadO_interv_new ib0.res_O_DTH_TVC ///
+>           i.MigDeadTwin_Twin_DTH_TVC ib21.y3_mother_age_birth ///
+>           ib0.coresidMGM##ib0.coresidMGF ///
+>           ib0.coresidPGM##ib0.coresidPGF  ///
+>           ib0.coresid_maunt ib0.coresid_muncle ///
+>           ib0.coresid_paunt ib0.coresid_puncle  ///
+>           , vce(cluster MotherId) iter(10)
+
+         {txt}failure _d:  {res}censor_death == 1
+   {txt}analysis time _t:  {res}(EventDate-origin)/3.16e+10
+             {txt}origin:  {res}time DoB
+{txt}  exit on or before:  {res}time DoB+(31557600000*5)+212000000
+                 {txt}id:  {res}concat_IndividualId
+
+{txt}Iteration 0:   log pseudolikelihood = {res}-85077.574
+{txt}Iteration 1:   log pseudolikelihood = {res}-84099.591
+{txt}Iteration 2:   log pseudolikelihood = {res}-82581.533
+{txt}Iteration 3:   log pseudolikelihood = {res}-82456.487
+{txt}Iteration 4:   log pseudolikelihood = {res}-82446.649
+{txt}Iteration 5:   log pseudolikelihood = {res} -82446.36
+{txt}Iteration 6:   log pseudolikelihood = {res} -82446.36
+{txt}Refining estimates:
+Iteration 0:   log pseudolikelihood = {res} -82446.36
+
+{txt}Cox regression -- Breslow method for ties
+
+No. of subjects      = {res}     112,315             {txt}Number of obs    =  {res}   579,751
+{txt}No. of failures      = {res}       7,364
+{txt}Time at risk         = {res} 476198.1155
+                                                {txt}Wald chi2({res}73{txt})    =  {res}   6621.47
+{txt}Log pseudolikelihood =   {res} -82446.36             {txt}Prob > chi2      =  {res}    0.0000
+
+{txt}{ralign 90:(Std. Err. adjusted for {res:50,968} clusters in MotherId)}
+{hline 25}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 26}{c |}{col 38}    Robust
+{col 1}                      _t{col 26}{c |} Haz. Ratio{col 38}   Std. Err.{col 50}      z{col 58}   P>|z|{col 66}     [95% Con{col 79}f. Interval]
+{hline 25}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 18}gender {c |}
+{space 17}Female  {c |}{col 26}{res}{space 2} .9199888{col 38}{space 2} .0205903{col 49}{space 1}   -3.73{col 58}{space 3}0.000{col 66}{space 4} .8805048{col 79}{space 3} .9612433
+{txt}{space 24} {c |}
+{space 13}hdss_period {c |}
+{space 13}BF021 2010  {c |}{col 26}{res}{space 2} 1.452408{col 38}{space 2} .2846077{col 49}{space 1}    1.90{col 58}{space 3}0.057{col 66}{space 4} .9892156{col 79}{space 3} 2.132488
+{txt}{space 13}BF021 2015  {c |}{col 26}{res}{space 2}  .539267{col 38}{space 2} .1146183{col 49}{space 1}   -2.91{col 58}{space 3}0.004{col 66}{space 4} .3555376{col 79}{space 3} .8179413
+{txt}{space 13}BF041 2010  {c |}{col 26}{res}{space 2} 1.675865{col 38}{space 2} .3279387{col 49}{space 1}    2.64{col 58}{space 3}0.008{col 66}{space 4} 1.142018{col 79}{space 3} 2.459262
+{txt}{space 13}BF041 2015  {c |}{col 26}{res}{space 2} 1.073345{col 38}{space 2} .2212172{col 49}{space 1}    0.34{col 58}{space 3}0.731{col 66}{space 4} .7166484{col 79}{space 3}  1.60758
+{txt}{space 13}GM011 1990  {c |}{col 26}{res}{space 2} 5.349217{col 38}{space 2} 1.050694{col 49}{space 1}    8.54{col 58}{space 3}0.000{col 66}{space 4} 3.639963{col 79}{space 3} 7.861102
+{txt}{space 13}GM011 1995  {c |}{col 26}{res}{space 2} 5.378252{col 38}{space 2} 1.040793{col 49}{space 1}    8.69{col 58}{space 3}0.000{col 66}{space 4} 3.680592{col 79}{space 3} 7.858953
+{txt}{space 13}GM011 2000  {c |}{col 26}{res}{space 2} 3.556657{col 38}{space 2} .6916754{col 49}{space 1}    6.52{col 58}{space 3}0.000{col 66}{space 4} 2.429438{col 79}{space 3} 5.206886
+{txt}{space 13}GM011 2005  {c |}{col 26}{res}{space 2} 1.758122{col 38}{space 2} .3430935{col 49}{space 1}    2.89{col 58}{space 3}0.004{col 66}{space 4} 1.199331{col 79}{space 3} 2.577265
+{txt}{space 13}GM011 2010  {c |}{col 26}{res}{space 2} 1.523051{col 38}{space 2} .2969258{col 49}{space 1}    2.16{col 58}{space 3}0.031{col 66}{space 4} 1.039367{col 79}{space 3} 2.231825
+{txt}{space 13}GM011 2015  {c |}{col 26}{res}{space 2}  1.17624{col 38}{space 2} .2338337{col 49}{space 1}    0.82{col 58}{space 3}0.414{col 66}{space 4} .7966708{col 79}{space 3} 1.736651
+{txt}{space 13}SN011 1990  {c |}{col 26}{res}{space 2} 5.735931{col 38}{space 2} 1.101961{col 49}{space 1}    9.09{col 58}{space 3}0.000{col 66}{space 4} 3.936179{col 79}{space 3} 8.358589
+{txt}{space 13}SN011 1995  {c |}{col 26}{res}{space 2}  6.71639{col 38}{space 2} 1.279342{col 49}{space 1}   10.00{col 58}{space 3}0.000{col 66}{space 4} 4.623795{col 79}{space 3} 9.756033
+{txt}{space 13}SN011 2000  {c |}{col 26}{res}{space 2} 4.112304{col 38}{space 2} .7875563{col 49}{space 1}    7.38{col 58}{space 3}0.000{col 66}{space 4} 2.825334{col 79}{space 3} 5.985503
+{txt}{space 13}SN011 2005  {c |}{col 26}{res}{space 2} 2.203539{col 38}{space 2} .4274414{col 49}{space 1}    4.07{col 58}{space 3}0.000{col 66}{space 4} 1.506625{col 79}{space 3} 3.222823
+{txt}{space 13}SN011 2010  {c |}{col 26}{res}{space 2} 1.462301{col 38}{space 2} .2873842{col 49}{space 1}    1.93{col 58}{space 3}0.053{col 66}{space 4} .9948351{col 79}{space 3} 2.149425
+{txt}{space 13}SN011 2015  {c |}{col 26}{res}{space 2} 1.152162{col 38}{space 2}  .282898{col 49}{space 1}    0.58{col 58}{space 3}0.564{col 66}{space 4} .7120528{col 79}{space 3} 1.864295
+{txt}{space 13}SN012 1990  {c |}{col 26}{res}{space 2} 3.493817{col 38}{space 2} .7693043{col 49}{space 1}    5.68{col 58}{space 3}0.000{col 66}{space 4} 2.269206{col 79}{space 3} 5.379308
+{txt}{space 13}SN012 1995  {c |}{col 26}{res}{space 2} 2.971984{col 38}{space 2} .6444381{col 49}{space 1}    5.02{col 58}{space 3}0.000{col 66}{space 4} 1.943005{col 79}{space 3} 4.545891
+{txt}{space 13}SN012 2000  {c |}{col 26}{res}{space 2} 2.229725{col 38}{space 2} .5078546{col 49}{space 1}    3.52{col 58}{space 3}0.000{col 66}{space 4} 1.426845{col 79}{space 3} 3.484381
+{txt}{space 13}SN012 2010  {c |}{col 26}{res}{space 2}  .777159{col 38}{space 2} .2276104{col 49}{space 1}   -0.86{col 58}{space 3}0.389{col 66}{space 4}  .437738{col 79}{space 3} 1.379766
+{txt}{space 13}SN012 2015  {c |}{col 26}{res}{space 2} .3670671{col 38}{space 2} .1961649{col 49}{space 1}   -1.88{col 58}{space 3}0.061{col 66}{space 4} .1287815{col 79}{space 3} 1.046254
+{txt}{space 24} {c |}
+{space 4}MigDeadMO_MO_DTH_TVC {c |}
+{space 4}mother non resident  {c |}{col 26}{res}{space 2} .9322204{col 38}{space 2} .0336025{col 49}{space 1}   -1.95{col 58}{space 3}0.052{col 66}{space 4} .8686333{col 79}{space 3} 1.000462
+{txt}{space 6}-3m before MO DTH  {c |}{col 26}{res}{space 2} 9.281959{col 38}{space 2} 1.767053{col 49}{space 1}   11.70{col 58}{space 3}0.000{col 66}{space 4} 6.391343{col 79}{space 3} 13.47991
+{txt}{space 3}0 to 3m after MO DTH  {c |}{col 26}{res}{space 2} 8.663312{col 38}{space 2} 2.323705{col 49}{space 1}    8.05{col 58}{space 3}0.000{col 66}{space 4} 5.121198{col 79}{space 3} 14.65535
+{txt}{space 2}3m to 6m after MO DTH  {c |}{col 26}{res}{space 2} 3.089121{col 38}{space 2} 1.155362{col 49}{space 1}    3.02{col 58}{space 3}0.003{col 66}{space 4} 1.484148{col 79}{space 3} 6.429731
+{txt}{space 5}6m+ mother's death  {c |}{col 26}{res}{space 2} 1.335931{col 38}{space 2} .2827147{col 49}{space 1}    1.37{col 58}{space 3}0.171{col 66}{space 4} .8823679{col 79}{space 3}  2.02264
+{txt}{space 24} {c |}
+{space 4}MigDeadFA_FA_DTH_TVC {c |}
+{space 4}father non resident  {c |}{col 26}{res}{space 2} 1.094569{col 38}{space 2} .0313206{col 49}{space 1}    3.16{col 58}{space 3}0.002{col 66}{space 4} 1.034871{col 79}{space 3}  1.15771
+{txt}{space 6}-3m before FA DTH  {c |}{col 26}{res}{space 2} 2.395912{col 38}{space 2} .6348289{col 49}{space 1}    3.30{col 58}{space 3}0.001{col 66}{space 4} 1.425389{col 79}{space 3} 4.027245
+{txt}{space 3}0 to 3m after FA DTH  {c |}{col 26}{res}{space 2} 3.048342{col 38}{space 2} .6737853{col 49}{space 1}    5.04{col 58}{space 3}0.000{col 66}{space 4} 1.976604{col 79}{space 3} 4.701188
+{txt}{space 2}3m to 6m after FA DTH  {c |}{col 26}{res}{space 2} 1.271514{col 38}{space 2} .4752039{col 49}{space 1}    0.64{col 58}{space 3}0.520{col 66}{space 4} .6112247{col 79}{space 3} 2.645095
+{txt}{space 5}6m+ father's death  {c |}{col 26}{res}{space 2} .9548327{col 38}{space 2} .1721276{col 49}{space 1}   -0.26{col 58}{space 3}0.798{col 66}{space 4} .6706274{col 79}{space 3} 1.359482
+{txt}{space 24} {c |}
+{space 5}birth_int_gp_YS_new {c |}
+{space 19}NoYS  {c |}{col 26}{res}{space 2} .7209988{col 38}{space 2} .0502503{col 49}{space 1}   -4.69{col 58}{space 3}0.000{col 66}{space 4} .6289407{col 79}{space 3} .8265315
+{txt}{space 6}y sibling non-res  {c |}{col 26}{res}{space 2} .9224205{col 38}{space 2} .0626797{col 49}{space 1}   -1.19{col 58}{space 3}0.235{col 66}{space 4} .8073998{col 79}{space 3} 1.053827
+{txt}{space 8}Int <18m - 0-6m  {c |}{col 26}{res}{space 2} .8255754{col 38}{space 2} .1969728{col 49}{space 1}   -0.80{col 58}{space 3}0.422{col 66}{space 4} .5172135{col 79}{space 3} 1.317782
+{txt}{space 7}Int <18m - 6-12m  {c |}{col 26}{res}{space 2} .5141878{col 38}{space 2} .1691878{col 49}{space 1}   -2.02{col 58}{space 3}0.043{col 66}{space 4} .2698009{col 79}{space 3} .9799415
+{txt}{space 8}Int <18m - 12m+  {c |}{col 26}{res}{space 2} .3994101{col 38}{space 2} .1021133{col 49}{space 1}   -3.59{col 58}{space 3}0.000{col 66}{space 4} .2419917{col 79}{space 3} .6592309
+{txt}{space 6}Int >18m -  6-12m  {c |}{col 26}{res}{space 2} .8786992{col 38}{space 2} .0867726{col 49}{space 1}   -1.31{col 58}{space 3}0.190{col 66}{space 4} .7240742{col 79}{space 3} 1.066344
+{txt}{space 7}Int >18m -  12m+  {c |}{col 26}{res}{space 2} .8468869{col 38}{space 2} .0856452{col 49}{space 1}   -1.64{col 58}{space 3}0.100{col 66}{space 4} .6946145{col 79}{space 3}  1.03254
+{txt}{space 24} {c |}
+{space 11}res_Y_DTH_TVC {c |}
+{space 9}-3m before DTH  {c |}{col 26}{res}{space 2} 4.912826{col 38}{space 2} 1.057269{col 49}{space 1}    7.40{col 58}{space 3}0.000{col 66}{space 4} 3.222165{col 79}{space 3}  7.49057
+{txt}{space 9}-3m after  DTH  {c |}{col 26}{res}{space 2} 1.784813{col 38}{space 2} .4473417{col 49}{space 1}    2.31{col 58}{space 3}0.021{col 66}{space 4} 1.092068{col 79}{space 3} 2.916998
+{txt}{space 14}3m&+  DTH  {c |}{col 26}{res}{space 2} 1.075835{col 38}{space 2} .1928197{col 49}{space 1}    0.41{col 58}{space 3}0.683{col 66}{space 4} .7571585{col 79}{space 3} 1.528639
+{txt}{space 24} {c |}
+{space 5}MigDeadO_interv_new {c |}
+{space 13}No Old sib  {c |}{col 26}{res}{space 2} 1.046404{col 38}{space 2} .0319695{col 49}{space 1}    1.48{col 58}{space 3}0.138{col 66}{space 4} .9855838{col 79}{space 3} 1.110977
+{txt}{space 5}O sib non resident  {c |}{col 26}{res}{space 2} .9959525{col 38}{space 2} .1324035{col 49}{space 1}   -0.03{col 58}{space 3}0.976{col 66}{space 4} .7675003{col 79}{space 3} 1.292405
+{txt}{space 13}O int <18m  {c |}{col 26}{res}{space 2} .8114072{col 38}{space 2} .1034375{col 49}{space 1}   -1.64{col 58}{space 3}0.101{col 66}{space 4} .6320166{col 79}{space 3} 1.041716
+{txt}{space 24} {c |}
+{space 11}res_O_DTH_TVC {c |}
+{space 9}-3m before DTH  {c |}{col 26}{res}{space 2} 3.607498{col 38}{space 2} .6842447{col 49}{space 1}    6.76{col 58}{space 3}0.000{col 66}{space 4} 2.487461{col 79}{space 3} 5.231859
+{txt}{space 9}-3m after  DTH  {c |}{col 26}{res}{space 2} 1.896528{col 38}{space 2} .3010483{col 49}{space 1}    4.03{col 58}{space 3}0.000{col 66}{space 4} 1.389448{col 79}{space 3} 2.588666
+{txt}{space 14}3m&+  DTH  {c |}{col 26}{res}{space 2} 1.291456{col 38}{space 2} .0514251{col 49}{space 1}    6.42{col 58}{space 3}0.000{col 66}{space 4} 1.194498{col 79}{space 3} 1.396285
+{txt}{space 24} {c |}
+MigDeadTwin_Twin_DTH_TVC {c |}
+{space 6}Twin non resident  {c |}{col 26}{res}{space 2} 1.915168{col 38}{space 2} .9366849{col 49}{space 1}    1.33{col 58}{space 3}0.184{col 66}{space 4} .7343362{col 79}{space 3}  4.99481
+{txt}-3m before Twin's death  {c |}{col 26}{res}{space 2} 7.479684{col 38}{space 2} 1.146466{col 49}{space 1}   13.13{col 58}{space 3}0.000{col 66}{space 4} 5.538771{col 79}{space 3} 10.10074
+{txt}{space 1}-3m after Twin's death  {c |}{col 26}{res}{space 2} 7.212056{col 38}{space 2} 1.020555{col 49}{space 1}   13.96{col 58}{space 3}0.000{col 66}{space 4} 5.465228{col 79}{space 3} 9.517216
+{txt}{space 5}3m&+  Twin's death  {c |}{col 26}{res}{space 2} .7622455{col 38}{space 2} .1209697{col 49}{space 1}   -1.71{col 58}{space 3}0.087{col 66}{space 4} .5584801{col 79}{space 3} 1.040356
+{txt}{space 16}no Twin  {c |}{col 26}{res}{space 2} .5430119{col 38}{space 2} .0283701{col 49}{space 1}  -11.69{col 58}{space 3}0.000{col 66}{space 4} .4901597{col 79}{space 3}  .601563
+{txt}{space 24} {c |}
+{space 5}y3_mother_age_birth {c |}
+{space 18}15-17  {c |}{col 26}{res}{space 2} 1.226195{col 38}{space 2} .0710886{col 49}{space 1}    3.52{col 58}{space 3}0.000{col 66}{space 4} 1.094488{col 79}{space 3} 1.373751
+{txt}{space 18}18–20  {c |}{col 26}{res}{space 2} 1.021479{col 38}{space 2} .0446353{col 49}{space 1}    0.49{col 58}{space 3}0.627{col 66}{space 4}  .937637{col 79}{space 3} 1.112818
+{txt}{space 18}24–26  {c |}{col 26}{res}{space 2} .9734299{col 38}{space 2} .0405484{col 49}{space 1}   -0.65{col 58}{space 3}0.518{col 66}{space 4} .8971141{col 79}{space 3} 1.056238
+{txt}{space 18}27–29  {c |}{col 26}{res}{space 2} .9697403{col 38}{space 2}  .041435{col 49}{space 1}   -0.72{col 58}{space 3}0.472{col 66}{space 4} .8918368{col 79}{space 3} 1.054449
+{txt}{space 18}30–32  {c |}{col 26}{res}{space 2} .9931051{col 38}{space 2} .0441862{col 49}{space 1}   -0.16{col 58}{space 3}0.876{col 66}{space 4} .9101704{col 79}{space 3} 1.083597
+{txt}{space 18}33–35  {c |}{col 26}{res}{space 2} 1.116598{col 38}{space 2} .0502151{col 49}{space 1}    2.45{col 58}{space 3}0.014{col 66}{space 4} 1.022391{col 79}{space 3} 1.219486
+{txt}{space 18}36–38  {c |}{col 26}{res}{space 2} 1.190402{col 38}{space 2} .0585425{col 49}{space 1}    3.54{col 58}{space 3}0.000{col 66}{space 4} 1.081017{col 79}{space 3} 1.310855
+{txt}{space 18}39–41  {c |}{col 26}{res}{space 2} 1.295176{col 38}{space 2} .0770405{col 49}{space 1}    4.35{col 58}{space 3}0.000{col 66}{space 4} 1.152649{col 79}{space 3} 1.455327
+{txt}{space 20}42+  {c |}{col 26}{res}{space 2} 1.547062{col 38}{space 2} .0980742{col 49}{space 1}    6.88{col 58}{space 3}0.000{col 66}{space 4} 1.366303{col 79}{space 3} 1.751736
+{txt}{space 16}Missing  {c |}{col 26}{res}{space 2} 1.336566{col 38}{space 2} .3908107{col 49}{space 1}    0.99{col 58}{space 3}0.321{col 66}{space 4} .7535285{col 79}{space 3} 2.370724
+{txt}{space 24} {c |}
+{space 12}1.coresidMGM {c |}{col 26}{res}{space 2} .5007592{col 38}{space 2} .0299689{col 49}{space 1}  -11.56{col 58}{space 3}0.000{col 66}{space 4} .4453353{col 79}{space 3} .5630809
+{txt}{space 12}1.coresidMGF {c |}{col 26}{res}{space 2} .9491422{col 38}{space 2} .0966799{col 49}{space 1}   -0.51{col 58}{space 3}0.608{col 66}{space 4} .7773698{col 79}{space 3} 1.158871
+{txt}{space 24} {c |}
+{space 3}coresidMGM#coresidMGF {c |}
+{space 20}1 1  {c |}{col 26}{res}{space 2} 1.898352{col 38}{space 2} .2233899{col 49}{space 1}    5.45{col 58}{space 3}0.000{col 66}{space 4}  1.50734{col 79}{space 3} 2.390796
+{txt}{space 24} {c |}
+{space 12}1.coresidPGM {c |}{col 26}{res}{space 2} .8946261{col 38}{space 2} .0330827{col 49}{space 1}   -3.01{col 58}{space 3}0.003{col 66}{space 4} .8320792{col 79}{space 3} .9618746
+{txt}{space 12}1.coresidPGF {c |}{col 26}{res}{space 2} 1.252166{col 38}{space 2} .0735216{col 49}{space 1}    3.83{col 58}{space 3}0.000{col 66}{space 4} 1.116049{col 79}{space 3} 1.404885
+{txt}{space 24} {c |}
+{space 3}coresidPGM#coresidPGF {c |}
+{space 20}1 1  {c |}{col 26}{res}{space 2} .9724554{col 38}{space 2} .0670629{col 49}{space 1}   -0.41{col 58}{space 3}0.685{col 66}{space 4} .8495105{col 79}{space 3} 1.113193
+{txt}{space 24} {c |}
+{space 9}1.coresid_maunt {c |}{col 26}{res}{space 2} 1.125633{col 38}{space 2} .0740265{col 49}{space 1}    1.80{col 58}{space 3}0.072{col 66}{space 4} .9895054{col 79}{space 3} 1.280488
+{txt}{space 8}1.coresid_muncle {c |}{col 26}{res}{space 2} 1.247737{col 38}{space 2}   .08282{col 49}{space 1}    3.33{col 58}{space 3}0.001{col 66}{space 4} 1.095529{col 79}{space 3} 1.421094
+{txt}{space 9}1.coresid_paunt {c |}{col 26}{res}{space 2} .9612423{col 38}{space 2} .0369227{col 49}{space 1}   -1.03{col 58}{space 3}0.303{col 66}{space 4} .8915322{col 79}{space 3} 1.036403
+{txt}{space 8}1.coresid_puncle {c |}{col 26}{res}{space 2}  .998265{col 38}{space 2} .0391922{col 49}{space 1}   -0.04{col 58}{space 3}0.965{col 66}{space 4} .9243307{col 79}{space 3} 1.078113
+{txt}{hline 25}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}.          log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\ycompaore\Desktop\Redaction thèse Yacou\Après confirmation\Paper 3\mort_results.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}10 Feb 2021, 15:35:07
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
